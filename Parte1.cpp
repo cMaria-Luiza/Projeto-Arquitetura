@@ -6,57 +6,63 @@
 #include <iostream>
 
 
-static long tamanho = 300;
+static long t = 1200;
 
 
 // Programa que soma todos os numeros de uma matriz de tamanho = 300
 int main() {
 
-
-    int matriz[tamanho][tamanho];
+    int m[t][t];
     int soma = 0;
 
+    // MAU USO 
+
+    auto inicio = std::chrono::system_clock::now();
+
     // preenche matriz
-    for(int coluna = 0; coluna < tamanho; coluna++) {
-        for(int linha = 0; linha < tamanho; linha++) {
-            matriz[linha][coluna] = coluna+linha;
+    for (int j = 0; j < t; j++) {/* coluna a coluna */
+        for (int i = 0; i < t; i++) {
+             m[i][j] = i*j*3;
         }
     }
 
-   //std::cout << std::fixed << std::setprecision(9) << std::left;
-
-
-    auto start = std::chrono::system_clock::now();
-
     // soma elementos da matriz
-    for(int coluna = 0; coluna < tamanho; coluna++) {
-        for(int linha = 0; linha < tamanho; linha++) {
-            soma = soma + matriz[linha][coluna];
+    for (int j = 0; j < t; j++) { /* coluna a coluna */
+        for (int i = 0; i < t; i++) {
+            soma += m[i][j];
         }
     }
 
     auto final = std::chrono::system_clock::now();
     std::chrono::duration<double> tempo = final - inicio;
 
-    std::cout << "Tempo para o primeiro caso = " << tempo << " segundos" << std::endl;
+    std::cout << "Tempo para o primeiro caso = " << tempo.count() << " segundos" << std::endl;
 
 
+    // BOM USO
 
     soma = 0;
 
-    auto start = std::chrono::system_clock::now();
+    inicio = std::chrono::system_clock::now();
 
-    // soma elementos da matriz
-    for(int coluna = 0; coluna < tamanho; coluna++) {
-        for(int linha = 0; linha < tamanho; linha++) {
-            soma = soma + matriz[coluna][linha];
+    // preenche matriz
+    for (int i = 0; i < t; i++) {/* linha a linha */
+        for (int j = 0; j < t; j++) {
+            m[i][j] = i*j*2;
         }
     }
 
-    auto final = std::chrono::system_clock::now();
-    std::chrono::duration<double> tempo = final - inicio;
+    // soma elementos da matriz
+    for (int i = 0; i < t; i++) { /* linha a linha */
+        for (int j = 0; j < t; j++) {
+            soma += m[i][j];
+        }
+    }
 
-    std::cout << "Tempo para o segundo caso = " << tempo << " segundos" << std::endl;
+    final = std::chrono::system_clock::now();
+    std::chrono::duration<double> tempo2 = final - inicio;
+
+    std::cout << "Tempo para o segundo caso = " << tempo2.count() << " segundos" << std::endl;
 
     return 0;
 
